@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Logo from './Logo';
 
 const Screen = () => {
   // Stati per gestire i dati, la località e l'avviso
@@ -16,11 +17,13 @@ const Screen = () => {
         .then((response) => {
           // Aggiorna i dati con la risposta dell'API
           setData(response.data);
+          console.log(response.data);
           // Resetta l'avviso
           setAvviso('');
         })
         .catch((error) => {
           if (error.response && error.response.status === 404) {
+            
             // Imposta l'avviso se la località non viene trovata
             setAvviso('Località non trovata');
             // Imposta un timeout per 2 secondi e reimposta l'avviso a una stringa vuota
@@ -40,6 +43,7 @@ const Screen = () => {
 
   return (
     <>
+    <Logo/>
       <div className='search'>
         <input
           value={location}
@@ -56,13 +60,13 @@ const Screen = () => {
           <>
             <div className='top'>
               <div className='name'>
-                <h1>{data.name}</h1>
+                <h1>{data?.name}</h1>
               </div>
               <div className='temp'>
                 <h2>{data?.main?.temp}°</h2>
               </div>
               <div className='description'>
-                <p>{data?.weather?.description}</p>
+              <p>{data?.weather[0]?.description}</p>
               </div>
             </div>
 
